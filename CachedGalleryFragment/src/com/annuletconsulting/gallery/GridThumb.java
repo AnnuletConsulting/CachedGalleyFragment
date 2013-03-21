@@ -5,6 +5,12 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.widget.ImageView;
 
+/**
+ * Wrapper class that launches the Downloader/Thumbnailer.
+ * 
+ * @author Walt Moorhouse
+ */
+
 public class GridThumb {
 	private boolean selected = false;
 	private String url;

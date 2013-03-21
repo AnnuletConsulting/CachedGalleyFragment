@@ -31,6 +31,12 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Creates a fragment that has a TabHost has several tabs, each holding a "bucket" of image urls/paths.
+ * Allows user to select multiple images from the tabs and then to pass those on to another Intent.
+ * 
+ * @author Walt Moorhouse
+ */
 public class PicTabsFragment extends Fragment implements OnTabChangeListener, TabContentFactory, LoaderCallbacks<Void>{
 	public final static String PIC_PATHS_ARRAY = "pics_arry";
 	private View view;
@@ -59,6 +65,9 @@ public class PicTabsFragment extends Fragment implements OnTabChangeListener, Ta
 		return inflater.inflate(R.layout.interstitial, null);
 	}
 	
+	/**
+	 * This will initialize the TabHost and create the Tabs.
+	 */
 	private void init() {
 		view = inflater.inflate(R.layout.pic_tabs_fragment, container);
 		for (String bucket : buckets)
@@ -98,7 +107,7 @@ public class PicTabsFragment extends Fragment implements OnTabChangeListener, Ta
 		setRetainInstance(true);
 		bucketFragments.clear();
 	}
-
+	
 	/**
 	 * For testing/demo purposes.
 	 */
@@ -114,6 +123,9 @@ public class PicTabsFragment extends Fragment implements OnTabChangeListener, Ta
 		imageUrls.put("NY Parks (Web)", value );
 	}
 	
+	/**
+	 * This will load all Images on the phone.
+	 */
 	private void loadPhoneImages() {
 		for (int i = 0; i < imagecursor.getCount(); i++) {
 			imagecursor.moveToPosition(i);
@@ -127,6 +139,12 @@ public class PicTabsFragment extends Fragment implements OnTabChangeListener, Ta
 		Log.d(TAG, "loadImages(), buckets.length: "+ buckets.length);
 	}
 	
+	/**
+	 * Adds the url or path to the bucket if it exists, and if not, creates it and adds the url/path.
+	 * 
+	 * @param bucket
+	 * @param url
+	 */
 	private void addToImageMap(String bucket, String url) {
 		if (imageUrls.containsKey(bucket)) {
 			imageUrls.get(bucket).add(url);
@@ -137,6 +155,12 @@ public class PicTabsFragment extends Fragment implements OnTabChangeListener, Ta
 		}			
 	}
 	
+	/**
+	 * Takes a Set of Strings, sorts it, and returns a String array.
+	 * 
+	 * @param keySet
+	 * @return
+	 */
 	private static String[] setToOrderedStringArray(Set<String> keySet) {
 		int i = 0;
 		ArrayList<String> keys = new ArrayList<String>(keySet);
@@ -148,6 +172,12 @@ public class PicTabsFragment extends Fragment implements OnTabChangeListener, Ta
 		return out;
 	}
 
+	/**
+	 * Takes a List of Strings and returns a String Array.
+	 * 
+	 * @param arrayList
+	 * @return
+	 */
 	public static String[] listToStringArray(ArrayList<String> arrayList) {
 		String[] out = new String[arrayList.size()];
 		int i = 0;
@@ -157,6 +187,12 @@ public class PicTabsFragment extends Fragment implements OnTabChangeListener, Ta
 		return out;
 	}
 
+	/**
+	 * Create a tab for a bucket.
+	 * 
+	 * @param tabId
+	 * @return
+	 */
 	private TabSpec newTab(String tabId) {
 		Log.d(TAG, "buildTab(): tag=" + tabId);
 
@@ -194,6 +230,12 @@ public class PicTabsFragment extends Fragment implements OnTabChangeListener, Ta
 		}
 	}
 
+	/**
+	 * This creates the gridFragment and stores it, and returns it from the array when needed.
+	 * 
+	 * @param tabId
+	 * @return
+	 */
 	private GridFragment getFragment(String tabId) {
 		if (bucketFragments.containsKey(tabId)) {
 			bucketFragments.get(tabId).setUrls(listToStringArray(imageUrls.get(tabId)));
@@ -209,6 +251,11 @@ public class PicTabsFragment extends Fragment implements OnTabChangeListener, Ta
 		return gf;
 	}
 
+	/**
+	 * Gets the selected paths or urls from all the tabs.
+	 * 
+	 * @return
+	 */
 	private String[] getSelectedPaths() {
 		ArrayList<String> urls = new ArrayList<String>();
 		for (String bucket : buckets) {
@@ -220,19 +267,28 @@ public class PicTabsFragment extends Fragment implements OnTabChangeListener, Ta
 		return listToStringArray(urls);
 	}
 
+	/**
+	 * If you want to remove the urls from the selected list from the activity after this one, you can do it using a
+	 * callback to this.
+	 * 
+	 * @param uri
+	 */
 	public static void deSelect(String uri) {
 		for (String bucket : buckets) {
 			bucketFragments.get(bucket).deSelect(uri);
 		}
 	}
 
+	/**
+	 * When Next is clicked, pass the selected Urls/paths to the next Intent.
+	 */
 	protected void doNext() {
 		String[] selPaths = getSelectedPaths();
 		if (selPaths.length == 0) {
 			Toast.makeText(getActivity(), R.string.none_selected, Toast.LENGTH_LONG).show();
 			return;
 		}
-		Intent intent = new Intent(getActivity().getBaseContext(), DoSomethinWithSelectedPics.class);
+		Intent intent = new Intent(getActivity().getBaseContext(), DoSomethinWithSelectedPics.class); //TODO: put your next class here.
 		intent.putExtra(PIC_PATHS_ARRAY , selPaths);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		getActivity().startActivity(intent);

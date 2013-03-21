@@ -17,6 +17,11 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * This Fragment represents one tab or bucket in the PicTabsFragment.
+ * 
+ * @author Walt Moorhouse
+ */
 public class GridFragment extends Fragment {
 	public static final String BUCKET = "bucket";
 	public static final String URIS = "uris";
@@ -115,6 +120,10 @@ public class GridFragment extends Fragment {
 		return al;
 	}
 	
+	/**
+	 * If a counterView has been provided to show the number of images selected, this will update it.
+	 * @param amount to add (or subtract if negative)
+	 */
 	protected void add(int i) {
 		if (counterView == null)
 			return;
@@ -139,8 +148,10 @@ public class GridFragment extends Fragment {
 			gridObjects.get(uri).deSelect();
 	}
 
+	/**
+	 * Private Adapter Class for GridThumbs.
+	 */
     private class GridAdapter extends BaseAdapter  {
-
         private LayoutInflater mInflater;
 
         public GridAdapter() {
