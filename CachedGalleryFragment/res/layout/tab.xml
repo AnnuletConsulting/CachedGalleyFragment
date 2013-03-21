@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="@dimen/tab_width"
+	android:layout_height="@dimen/tab_height"
+	android:gravity="center_horizontal"
+	android:padding="@dimen/tab_padding">
+
+	<ImageView
+		android:id="@+id/tab_icon"
+		android:contentDescription="@string/app_name"
+		android:layout_width="@dimen/tab_icon_width"
+		android:layout_height="@dimen/tab_icon_height"
+		android:layout_alignParentTop="true" />
+	<TextView
+	    android:id="@+id/tab_text"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:gravity="center_horizontal"
+	    android:textColor="@android:color/white"
+	    android:textStyle="bold" />
+</RelativeLayout>
+

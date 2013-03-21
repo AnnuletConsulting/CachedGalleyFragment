@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GalleryTest</string>
+    <string name="test">Test</string>
+    <string name="prev">Prev</string>
+    <string name="next">Next</string>
+    <string name="none_selected">You must select at least one photo to continue.</string>
+</resources>
